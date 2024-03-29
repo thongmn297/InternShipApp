@@ -1,0 +1,150 @@
+﻿@using DemoShared.Models.Entities;
+@using DemoShared.Constants;
+
+@if (show)
+{
+    <div class="modal modal_overlay show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog card-cus-size-center-width-650 fade-modal-open" role="document">
+            <div class="modal-content modal-content-top-50" style="font-size:12px;">
+                <div class="modal-header pt-2 pb-2 cus-color">
+                    <h5 class="modal-title">
+                        @Common.Header.NEW_ADDITION
+                    </h5>
+                </div>
+                <div class="p-4">
+                    <div class="row">
+                        <div class="col-sm-1">
+                        </div>
+                        <div class="col-sm-11">
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @EMP_ID
+                                    <span class="required">*</span>
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <input type="text" class="form-control" id="employyee_id">
+                                </label>
+                            </div>
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @CPN_NUMBER
+                                    <span class="required">*</span>
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <Dropdown type="text" class="form-control" id="compaly_number"> </Dropdown>
+                                </label>
+                            </div>
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @FULL_NAME
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <input type="text" class="form-control" id="compaly_number">
+                                </label>
+                            </div>
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @NAME_KATA
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <input type="text" class="form-control" id="compaly_number">
+                                </label>
+                            </div>
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @GENDER
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <input type="text" class="form-control" id="compaly_number">
+                                </label>
+                            </div>
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @BIRTH_DATE
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <DateInput TValue="DateTime?" @bind-Value="@BirthDate" EnableMinMax="true" Placeholder="Enter Date" />
+                                </label>
+                            </div>
+                            <div class="form-group row pb-2">
+                                <label class="col-sm-3 p-0 mt-2">
+                                    @HIRE_DATE
+                                </label>
+                                <label class="col-sm-8 p-0">
+                                    <DateInput TValue="DateTime?" @bind-Value="@HireDate" EnableMinMax="true" Placeholder="Enter Date" />
+                                </label>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-2 pb-2 me-5">
+                                @if (state!.Equals(Common.Action.INSERT))
+                                {
+                                    <Button Color="ButtonColor.Primary" Class="col-sm-2" @onclick="Confirm">
+                                        @Common.Label.INSERT
+                                    </Button>
+                                }
+                                else
+                                {
+                                    <Button Color="ButtonColor.Primary" Class="col-sm-2" @onclick="Confirm">
+                                        @Common.Label.UPDATE
+                                    </Button>
+                                }
+                                <Button Color="ButtonColor.Primary" Outline="true" @onclick="Hide">
+                                    @Common.Label.CANCEL
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@code {
+    #region Transfer data Object
+    [Parameter]
+    public EventCallback<EmployeesModel> ConfirmCallBack { get; set; }
+    [Parameter]
+    public EventCallback<EmployeesModel> CancelCallBack { get; set; }
+    [Parameter]
+    public bool show { get; set; }
+    [Parameter]
+    public string? state { get; set; }
+    #endregion
+
+    #region Variable
+    private DateTime? BirthDate { get; set; }
+    private DateTime? HireDate { get; set; }
+
+
+    #endregion
+
+    #region Const
+    private const string EMP_ID = "技術者ID";
+    private const string CPN_NUMBER = "会社番号";
+    private const string FULL_NAME = "氏名";
+    private const string NAME_KATA = "氏名カナ";
+    private const string GENDER = "性別";
+    private const string BIRTH_DATE = "生年月日";
+    private const string HIRE_DATE = "入社日";
+
+
+    #endregion
+
+    #region Function
+
+    public async Task Hide()
+    {
+        await CancelCallBack.InvokeAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task Confirm()
+    {
+        await ConfirmCallBack.InvokeAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+    #endregion
+
+}

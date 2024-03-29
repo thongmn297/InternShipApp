@@ -1,0 +1,27 @@
+@DemoWebApi_HostAddress = https://localhost:44364
+
+GET {{DemoWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{DemoWebApi_HostAddress}}/weatherforecast
+
+###
+
+POST {{DemoWebApi_HostAddress}}/api/company
+Content-Type: application/json
+
+{
+  //Company
+}
+
+###
+
+GET {{DemoWebApi_HostAddress}}/api/company
+
+###
+
+GET {{DemoWebApi_HostAddress}}/api/employee
+
+###
